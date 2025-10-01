@@ -1,0 +1,71 @@
+"use client";
+import React from "react";
+import {routes} from "@/constants/routes";
+import Link from "next/link";
+import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
+import {usePathname} from "next/navigation";
+import {useAuthModalStore} from "@/store/use-auth-modal-store";
+import {CgProfile} from "react-icons/cg";
+
+export default function RouteNav(){
+
+    const pathname = usePathname();
+    const openAuthModal = useAuthModalStore(state => state.openAuthModal);
+
+    const isAuth = false;
+
+
+    return (
+        <nav className={"flex flex-col gap-4"}>
+
+            {/*<Logo />*/}
+
+            { routes.map((route, index) => {
+                const is_active = route.link === pathname;
+                return (
+                    <NavItem
+                        key={index}
+                        text={route.label}
+                    >
+                        <Link
+                            href={route.link}
+                            className={is_active ? "text-green-950" : "text-black"}
+                        >
+                            <route.icon className={"size-7"} />
+                        </Link>
+                    </NavItem>
+                )
+            })}
+
+            <NavItem text={isAuth ? "Profile" : "Login"}>
+                <Link
+                    href={isAuth ? "/profile" : "#"}
+                    onClick={(event) => {
+                        if (!isAuth){
+                            event.preventDefault();
+                            openAuthModal("SIGN_IN");
+                        }
+                    }}
+                >
+                    <CgProfile className={"size-7"} />
+                </Link>
+            </NavItem>
+        </nav>
+    )
+
+}
+
+function NavItem({ children, text}: { children: React.ReactNode, text: string }){
+
+    return (
+        <Tooltip delayDuration={50}>
+            <TooltipTrigger asChild>
+                {children}
+            </TooltipTrigger>
+            <TooltipContent side={"right"}>
+                <p>{text}</p>
+            </TooltipContent>
+        </Tooltip>
+    )
+
+}
