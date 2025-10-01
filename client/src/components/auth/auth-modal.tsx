@@ -4,13 +4,12 @@ import React from "react";
 import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import SignupForm from "@/components/auth/forms/signup-form";
 import SigninForm from "@/components/auth/forms/signin-form";
-import Link from "next/link";
 import RouteLink from "@/components/routes/route-link";
 
 export default function AuthModal() {
 
-    const { open, form_type, openAuthModal, closeAuthModal } = useAuthModalStore();
-    const { title, description } = authInfo[form_type];
+    const {open, form_type, openAuthModal, closeAuthModal} = useAuthModalStore();
+    const {title, description} = authInfo[form_type];
 
     return (
         <Dialog open={open} onOpenChange={(state) => !state && closeAuthModal()}>
@@ -20,15 +19,15 @@ export default function AuthModal() {
                     <DialogDescription>{description}</DialogDescription>
                 </DialogHeader>
 
-                { form_type === "SIGN_IN" && (
-                    <SigninForm />
+                {form_type === "SIGN_IN" && (
+                    <SigninForm/>
                 )}
 
-                { form_type === "SIGN_UP" && (
-                    <SignupForm />
+                {form_type === "SIGN_UP" && (
+                    <SignupForm/>
                 )}
 
-                { form_type && (
+                {form_type && (
                     <div className={"flex justify-center items-center gap-2 font-light"}>
                         {form_type === "SIGN_IN" ? (
                             <>

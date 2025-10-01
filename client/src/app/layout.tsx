@@ -3,9 +3,7 @@ import "../styles/globals.css";
 import {cn} from "@/lib/utils";
 import React from "react";
 import {fredoka} from "@/styles/fonts";
-import SideContainer from "@/components/side-container";
 import AuthModal from "@/components/auth/auth-modal";
-import AuthNav from "@/components/auth/auth-nav";
 import OverlayLayout from "@/components/overlay-layout";
 import RouteMobile from "@/components/routes/route-mobile";
 

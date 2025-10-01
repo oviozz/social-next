@@ -1,8 +1,6 @@
 import {IconType} from "react-icons";
 import { HiHome } from "react-icons/hi";
 import { MdTravelExplore } from "react-icons/md";
-import { CgProfile } from "react-icons/cg";
-import { FaSignOutAlt } from "react-icons/fa";
 
 
 type RouteType = {
