@@ -1,5 +1,5 @@
 "use client";
-import {routes} from "@/constants/routes";
+import {navRoutes} from "@/constants/nav-routes";
 import Link from "next/link";
 import {useAuthModalStore} from "@/store/use-auth-modal-store";
 import {CgProfile} from "react-icons/cg";
@@ -14,7 +14,7 @@ export default function RouteMobile(){
         <nav className={"bg-neutral-50 w-full border-t border-neutral-100/80"}>
             <ul className={"flex justify-between items-center px-10 h-14"}>
 
-                {routes.map((route, index) => {
+                {navRoutes.map((route, index) => {
                     return (
                         <Link
                             key={index}

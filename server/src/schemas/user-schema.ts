@@ -1,6 +1,7 @@
-import {z} from "zod/index";
+import {z} from "zod";
 
 export const userSchema = z.object({
+    _id: z.string().optional(),
     username: z.string().min(3, { message: "Username must be at least 3 characters long." })
         .max(30, { message: "Username must be 30 characters or less." }),
     email: z.email({ message: "Invalid email address." }),

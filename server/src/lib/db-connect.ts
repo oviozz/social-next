@@ -11,7 +11,9 @@ export const dbConnect = async () => {
     }
 
     try {
-        cachedDB = await mongoose.connect(env.DB_URL);
+        cachedDB = await mongoose.connect(env.DB_URL, {
+            dbName: "social-next"
+        });
         return cachedDB;
     } catch (error) {
         console.error("Error connecting to database:", error);

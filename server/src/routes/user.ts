@@ -1,17 +1,41 @@
-import {Hono} from "hono";
+import { Hono } from 'hono';
+import { User } from '../models/user.ts';
+import { HTTP_STATUS } from '../config/http-status.ts';
+import { checkAuth } from '../lib/middleware.ts';
+import { Profile } from '../models/profile.ts';
 
+const userRoutes = new Hono();
 
-const info = {
-    username: "praz",
-    email: "praz@gmail.com",
-    password: "praz123"
-};
+userRoutes.get('/me', checkAuth, async (c) => {
+    const authPayload = c.get('user');
 
-const userRoute = new Hono();
+    if (!authPayload) {
+        return c.json({ success: false, message: 'Unauthorized' }, HTTP_STATUS.Unauthorized);
+    }
 
-userRoute.get("/", (c) => {
-    return c.json({user: info})
-})
+    const user = await User.findOne({ _id: authPayload.userID })
+        .select({
+            __v: 0,
+            password: 0,
+        })
+        .lean();
 
+    if (!user) {
+        return c.json({ success: false, user: null }, HTTP_STATUS.NotFound);
+    }
 
-export default userRoute;
+    const profile = await Profile.exists({ userID: user._id });
+
+    const { _id, ...userData } = user;
+
+    return c.json(
+        {
+            success: true,
+            user: userData,
+            profileExists: !!profile?._id,
+        },
+        HTTP_STATUS.OK,
+    );
+});
+
+export default userRoutes;

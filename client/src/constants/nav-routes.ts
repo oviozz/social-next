@@ -11,7 +11,7 @@ type RouteType = {
 
 type AuthRouteType = Omit<RouteType, "link"> & { link?: string }
 
-export const routes: RouteType[] = [
+export const navRoutes: RouteType[] = [
     { label: "Home", link: "/", icon: HiHome },
     { label: "Explore", link: "/explore", icon: MdTravelExplore },
 ];

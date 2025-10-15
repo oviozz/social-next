@@ -1,26 +1,18 @@
-import mongoose, { Schema, Document } from "mongoose";
-import {UserType} from "../schemas/user-schema.ts";
+import mongoose from "mongoose";
+import type { InferSchemaType, Model } from "mongoose";
 
-type UserDocumentType = UserType & Document;
+const { Schema } = mongoose;
 
-const userModal = new Schema<UserDocumentType>({
-   username: {
-       type: String,
-       required: true,
-       unique: true,
-       index: true,
-       trim: true,
-   },
-    email: {
-       type: String,
-        required: true,
-        unique: true
+const userSchema = new Schema(
+    {
+        username: { type: String, required: true, unique: true, index: true, trim: true },
+        email: { type: String, required: true, unique: true },
+        password: { type: String, required: true },
     },
-    password: {
-       type: String,
-        required: true
-    }
-}, { timestamps: true });
+    { timestamps: true }
+);
 
-export const User = mongoose.models.User || mongoose.model<UserDocumentType>("user", userModal);
+type UserDoc = InferSchemaType<typeof userSchema>;
 
+export const User: Model<UserDoc> =
+    mongoose.models.User || mongoose.model<UserDoc>("User", userSchema);
