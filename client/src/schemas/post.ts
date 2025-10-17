@@ -23,11 +23,9 @@ export const postMediaSchema = z.object({
 
 export const createPostSchema = z.object({
     post: postSchema.omit({ userID: true }),
-    medias: z.array(postMediaSchema.omit({ postID: true })).optional(),
+    media: z.array(postMediaSchema.omit({ postID: true })).optional(),
 });
 
 export type PostType = z.infer<typeof postSchema>;
 export type PostMediaType = z.infer<typeof postMediaSchema>;
-
-// Create Post
 export type CreatePostType = z.infer<typeof createPostSchema>;

@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import mongoose from 'mongoose';
+import type { Document } from 'mongoose';
 import { Post } from '../models/post/post.ts';
 import { PostMedia } from '../models/post/post-media.ts';
 import { checkAuth, createValidatorSchema } from '../lib/middleware.ts';
@@ -93,19 +94,25 @@ postRoutes.post('/', checkAuth, createValidatorSchema(createPostSchema), async (
                 throw new Error('Post not saved successfully');
             }
 
-            const postMediaPromiseResult = await Promise.all(
-                body.medias.map((media) => {
-                    const new_media = new PostMedia({ ...media, postID: save_post._id });
-                    return new_media.save({ session });
-                }),
-            );
+            let postMediaPromiseResult: Document[] = [];
+
+            if (body.medias && body.medias.length > 0) {
+                postMediaPromiseResult = await Promise.all(
+                    body.medias.map((media) => {
+                        const new_media = new PostMedia({ ...media, postID: save_post._id });
+                        return new_media.save({ session });
+                    }),
+                );
+            }
 
             result = {
                 success: true,
                 message: 'Post created successfully',
                 post: {
                     ...save_post.toObject(),
-                    media: postMediaPromiseResult.map((m) => m.toObject()),
+                    ...(postMediaPromiseResult.length > 0 && {
+                        media: postMediaPromiseResult.map((m) => m.toObject()),
+                    }),
                 },
             };
         });

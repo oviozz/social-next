@@ -6,7 +6,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { usePathname } from 'next/navigation';
 import { useAuthModalStore } from '@/store/use-auth-modal-store';
 import { CgProfile } from 'react-icons/cg';
-import { IoMdSettings } from 'react-icons/io';
 
 type RouteNavProps = {
     isAuth: boolean;
@@ -47,14 +46,6 @@ export default function RouteNav({ isAuth }: RouteNavProps) {
                     <CgProfile className={'size-7'} />
                 </Link>
             </NavItem>
-
-            {isAuth && (
-                <NavItem text={'Settings'}>
-                    <Link href={'/setting'}>
-                        <IoMdSettings className={'size-7'} />
-                    </Link>
-                </NavItem>
-            )}
         </nav>
     );
 }
